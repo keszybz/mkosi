@@ -33,6 +33,13 @@ def dictify(f: Callable[..., Iterator[tuple[T, V]]]) -> Callable[..., dict[T, V]
     return functools.update_wrapper(wrapper, f)
 
 
+def listify(f: Callable[..., Iterator[T]]) -> Callable[..., list[T]]:
+    def wrapper(*args: Any, **kwargs: Any) -> list[T]:
+        return list(f(*args, **kwargs))
+
+    return functools.update_wrapper(wrapper, f)
+
+
 @dictify
 def read_os_release() -> Iterator[tuple[str, str]]:
     try:
